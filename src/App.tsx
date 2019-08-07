@@ -1,11 +1,9 @@
+// Dependencies.
 import React from 'react';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-    <h1>Beer!</h1>
-    </div>
-  );
-}
+// Components.
+import BeerSearch from './Components/BeerSearch';
+
+const App = () => <BeerSearch />;
 
 export default App;
