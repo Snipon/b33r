@@ -3,15 +3,42 @@ import React, { PureComponent } from 'react';
 
 // Util.
 import DataProvider from '../Util/DataProvider';
+
+// Components.
+import Beer from './Beer';
 import BeerTeaser from './BeerTeaser';
+import { Colors } from '../Util/variables';
 
 interface State {
+  active: any;
   beers: any[];
 }
+
+const Styles = {
+  pageWrapper: {
+    backgroundColor: Colors.highlight,
+    height: '100vh',
+    display: 'flex',
+  },
+  listWrapper: {
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column' as 'column',
+    listStyle: 'none',
+    padding: 0,
+  },
+  listItem: {
+    backgroundColor: 'transparent',
+  },
+  active: {
+    backgroundColor: Colors.midtone,
+  },
+};
 
 export default class BeerSearch extends PureComponent {
   private api = new DataProvider();
   public state: State = {
+    active: null,
     beers: [],
   };
 
@@ -19,19 +46,34 @@ export default class BeerSearch extends PureComponent {
     const beers = await this.api.getBeers();
     this.setState({ beers });
   }
+
+  public onClickHandler(data: any): void {
+    this.setState({ active: data });
+  }
+
   render() {
-    const { beers } = this.state;
+    const { active, beers } = this.state;
     return (
-      <div className="App">
-        {beers.length > 0 && (
-          <ul>
-            {beers.map(beer => (
-              <li key={beer.id}>
-                <BeerTeaser data={beer} />
-              </li>
-            ))}
-          </ul>
-        )}
+      <div style={Styles.pageWrapper}>
+        <div style={{ flex: 1 }}>
+          {beers.length > 0 && (
+            <ul style={Styles.listWrapper}>
+              {beers.map(beer => (
+                <li
+                  key={beer.id}
+                  style={{
+                    ...Styles.listItem,
+                    ...(active && active.id === beer.id && Styles.active),
+                  }}
+                  onClick={() => this.onClickHandler(beer)}
+                >
+                  <BeerTeaser data={beer} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div style={{ flex: 2 }}>{active && <Beer data={active} />}</div>
       </div>
     );
   }
