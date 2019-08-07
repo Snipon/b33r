@@ -14,14 +14,15 @@ const Styles = {
     display: 'flex',
     padding: Spacings.medium,
     backgroundColor: Colors.midtone,
-    height: '100vh',
+    minHeight: '100vh',
+    boxSizing: 'border-box' as 'border-box',
   },
 };
 
 const Beer = (props: Props) => (
   <div style={Styles.wrapper}>
     <figure>
-      <img src={props.data.image_url} style={{ width: '10vw' }} />
+      <img alt="A beer" src={props.data.image_url} style={{ width: '10vw' }} />
     </figure>
     <div style={{ marginLeft: Spacings.medium }}>
       <h1>

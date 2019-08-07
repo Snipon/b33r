@@ -17,12 +17,13 @@ interface State {
 const Styles = {
   pageWrapper: {
     backgroundColor: Colors.highlight,
-    height: '100vh',
+    minHeight: '100vh',
     display: 'flex',
+    flexWrap: 'wrap' as 'wrap',
+    justifyContent: 'center',
   },
   listWrapper: {
     cursor: 'pointer',
-    display: 'flex',
     flexDirection: 'column' as 'column',
     listStyle: 'none',
     padding: 0,
@@ -55,8 +56,8 @@ export default class BeerSearch extends PureComponent {
     const { active, beers } = this.state;
     return (
       <div style={Styles.pageWrapper}>
-        <div style={{ flex: 1 }}>
-          {beers.length > 0 && (
+        {beers.length > 0 && (
+          <div style={{ flex: 1 }}>
             <ul style={Styles.listWrapper}>
               {beers.map(beer => (
                 <li
@@ -71,12 +72,17 @@ export default class BeerSearch extends PureComponent {
                 </li>
               ))}
             </ul>
-          )}
-        </div>
-        <div style={{ flex: 2 }}>{active && <Beer data={active} />}</div>
+          </div>
+        )}
+        {active && (
+          <div style={{ flex: 2 }}>
+            <Beer data={active} />
+          </div>
+        )}
         <a
           href="https://github.com/Snipon/b33r"
           target="_blank"
+          rel="noopener noreferrer"
           style={{
             position: 'absolute',
             bottom: Spacings.medium,
@@ -85,6 +91,7 @@ export default class BeerSearch extends PureComponent {
         >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+            alt="GitHub mark logo"
             width={50}
           />
         </a>
