@@ -7,7 +7,7 @@ import DataProvider from '../Util/DataProvider';
 // Components.
 import Beer from './Beer';
 import BeerTeaser from './BeerTeaser';
-import { Colors } from '../Util/variables';
+import { Colors, Spacings } from '../Util/variables';
 
 interface State {
   active: any;
@@ -74,6 +74,20 @@ export default class BeerSearch extends PureComponent {
           )}
         </div>
         <div style={{ flex: 2 }}>{active && <Beer data={active} />}</div>
+        <a
+          href="https://github.com/Snipon/b33r"
+          target="_blank"
+          style={{
+            position: 'absolute',
+            bottom: Spacings.medium,
+            right: Spacings.medium,
+          }}
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+            width={50}
+          />
+        </a>
       </div>
     );
   }
