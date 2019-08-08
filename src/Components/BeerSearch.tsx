@@ -7,34 +7,18 @@ import DataProvider from '../Util/DataProvider';
 // Components.
 import Beer from './Beer';
 import BeerTeaser from './BeerTeaser';
-import { Colors, Spacings } from '../Util/variables';
+import Header from './Header';
+
+// StyleSheets.
+import '../Styles/Globals.css';
+import '../Styles/Typo.css';
+import '../Styles/Layout.css';
+import '../Styles/BeerSearch.css';
 
 interface State {
   active: any;
   beers: any[];
 }
-
-const Styles = {
-  pageWrapper: {
-    backgroundColor: Colors.highlight,
-    minHeight: '100vh',
-    display: 'flex',
-    flexWrap: 'wrap' as 'wrap',
-    justifyContent: 'center',
-  },
-  listWrapper: {
-    cursor: 'pointer',
-    flexDirection: 'column' as 'column',
-    listStyle: 'none',
-    padding: 0,
-  },
-  listItem: {
-    backgroundColor: 'transparent',
-  },
-  active: {
-    backgroundColor: Colors.midtone,
-  },
-};
 
 export default class BeerSearch extends PureComponent {
   private api = new DataProvider();
@@ -55,47 +39,31 @@ export default class BeerSearch extends PureComponent {
   render() {
     const { active, beers } = this.state;
     return (
-      <div style={Styles.pageWrapper}>
+      <main className="search">
+        <Header title="B33R" />
         {beers.length > 0 && (
-          <div style={{ flex: 1 }}>
-            <ul style={Styles.listWrapper}>
+          <nav>
+            <ul className="beer-list">
               {beers.map(beer => (
                 <li
+                  className={`beer-list__item ${
+                    active && active.id === beer.id ? 'active' : ''
+                  }`}
                   key={beer.id}
-                  style={{
-                    ...Styles.listItem,
-                    ...(active && active.id === beer.id && Styles.active),
-                  }}
                   onClick={() => this.onClickHandler(beer)}
                 >
                   <BeerTeaser data={beer} />
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
         )}
         {active && (
-          <div style={{ flex: 2 }}>
+          <div>
             <Beer data={active} />
           </div>
         )}
-        <a
-          href="https://github.com/Snipon/b33r"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            position: 'absolute',
-            bottom: Spacings.medium,
-            right: Spacings.medium,
-          }}
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-            alt="GitHub mark logo"
-            width={50}
-          />
-        </a>
-      </div>
+      </main>
     );
   }
 }

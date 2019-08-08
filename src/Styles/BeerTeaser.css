@@ -1,0 +1,16 @@
+.teaser {
+  display: flex;
+  padding: var(--spacing--small);
+  cursor: pointer;
+}
+
+.teaser__image {
+  margin-right: var(--spacing--small);
+  width: 50px;
+  text-align: center;
+}
+
+.teaser__image img {
+  height: 60px;
+  width: auto;
+}

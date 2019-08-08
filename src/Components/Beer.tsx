@@ -1,41 +1,24 @@
 // Dependencies.
 import React from 'react';
 
-// Components.
-import Text from './Styled/Text';
-import { Spacings, Colors } from '../Util/variables';
+// Stylesheets.
+import '../Styles/Beer.css';
 
 interface Props {
   data: any;
 }
 
-const Styles = {
-  wrapper: {
-    display: 'flex',
-    padding: Spacings.medium,
-    backgroundColor: Colors.midtone,
-    minHeight: '100vh',
-    boxSizing: 'border-box' as 'border-box',
-  },
-};
-
 const Beer = (props: Props) => (
-  <div style={Styles.wrapper}>
-    <figure>
-      <img alt="A beer" src={props.data.image_url} style={{ width: '10vw' }} />
+  <article className="beer">
+    <figure className="beer__image">
+      <img alt="A beer" src={props.data.image_url} />
     </figure>
-    <div style={{ marginLeft: Spacings.medium }}>
-      <h1>
-        <Text type="title" value={props.data.name} />
-      </h1>
-      <p>
-        <Text type="byline" value={props.data.brewers_tips} />
-      </p>
-      <p>
-        <Text type="paragraph" value={props.data.description} />
-      </p>
+    <div className="beer__content">
+      <h1 className="title title--large">{props.data.name}</h1>
+      <p className="byline">{props.data.brewers_tips}</p>
+      <p className="paragraph">{props.data.description}</p>
     </div>
-  </div>
+  </article>
 );
 
 export default Beer;

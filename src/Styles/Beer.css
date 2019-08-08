@@ -1,0 +1,20 @@
+.beer {
+  display: flex;
+  padding: var(--spacing--small);
+  background-color: var(--color--highlight);
+  height: 100%;
+}
+
+.beer__image {
+  width: 20vh;
+  margin-right: var(--spacing--small);
+}
+
+.beer .title {
+  color: var(--color--primary);
+}
+
+.beer .byline {
+  color: var(--color--secondary);
+  line-height: 1.5;
+}

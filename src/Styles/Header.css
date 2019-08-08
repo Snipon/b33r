@@ -1,0 +1,6 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing--small);
+  align-items: center;
+}
