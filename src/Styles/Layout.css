@@ -1,8 +1,9 @@
+.beer-search,
 .header {
   grid-column: span 2;
 }
 
-.search {
+.beer-wrapper {
   display: grid;
   grid-template-columns: 30vw auto;
   grid-template-rows: auto;

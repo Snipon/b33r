@@ -1,0 +1,23 @@
+.input {
+  appearance: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: var(--spacing--small);
+  width: 27vw;
+  outline: none;
+}
+
+.suggestionsContainer {
+  position: absolute;
+  background-color: var(--color--midtone);
+}
+
+.suggestion {
+  padding: 0.2em;
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.suggestionHighlighted {
+  background: transparent;
+}

@@ -1,11 +1,19 @@
-.beer-list__item .title {
-  color: var(--color--shade)
+.beer-search {
+  background-color: var(--color--midtone);
+  display: flex;
 }
 
-.beer-list__item .byline {
-  color: var(--color--secondary)
+.beer-search__button {
+  appearance: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: var(--spacing--small);
+  width: 3vw;
+
 }
 
-.beer-list__item.active {
-  background: linear-gradient(to right, transparent, var(--color--highlight))
+.beer-search__button:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.3);
 }

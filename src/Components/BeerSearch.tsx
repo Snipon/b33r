@@ -1,69 +1,96 @@
-// Dependencies.
+// Depedencies.
 import React, { PureComponent } from 'react';
+import Autosuggest from 'react-autosuggest';
 
-// Util.
+// Utils.
 import DataProvider from '../Util/DataProvider';
 
-// Components.
-import Beer from './Beer';
-import BeerTeaser from './BeerTeaser';
-import Header from './Header';
-
-// StyleSheets.
-import '../Styles/Globals.css';
-import '../Styles/Typo.css';
-import '../Styles/Layout.css';
+// Stylesheets.
 import '../Styles/BeerSearch.css';
+import theme from '../Styles/Autosuggest.module.css';
 
 interface State {
-  active: any;
-  beers: any[];
+  value: string;
+  suggestions: [];
+  selected: any;
 }
 
-export default class BeerSearch extends PureComponent {
+interface Props {
+  callback: () => void;
+}
+
+export default class BeerSearch extends PureComponent<Props> {
   private api = new DataProvider();
+
   public state: State = {
-    active: null,
-    beers: [],
+    value: '',
+    suggestions: [],
+    selected: null,
   };
 
-  async componentDidMount() {
-    const beers = await this.api.getBeers();
-    this.setState({ beers });
+  private getSuggestionValue = (suggestion: any) => suggestion.name;
+
+  private renderSuggestion = (suggestion: any) => <div>{suggestion.name}</div>;
+
+  private async getSuggestions(value: string) {
+    const suggestions = await this.api.searchBeers(value);
+    console.log(suggestions);
+    this.setState({ suggestions });
   }
 
-  public onClickHandler(data: any): void {
-    this.setState({ active: data });
+  private onSuggestionsFetchRequested = ({ value }: any) => {
+    this.setState({
+      suggestions: this.getSuggestions(value),
+    });
+  };
+
+  private onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
+    });
+  };
+
+  private onSuggestionSelected(e: any, { suggestion }: any) {
+    this.setState({ selected: suggestion });
+  }
+
+  onSubmitHandler() {
+    this.api.addBeer(this.state.selected);
+    this.props.callback();
   }
 
   render() {
-    const { active, beers } = this.state;
+    const { selected, suggestions, value } = this.state;
+    const inputProps = {
+      placeholder: 'Search for beer',
+      value,
+      onChange: (form: any, event: any) => {
+        this.setState({
+          value: event.newValue,
+        });
+      },
+    };
+
     return (
-      <main className="search">
-        <Header title="B33R" />
-        {beers.length > 0 && (
-          <nav>
-            <ul className="beer-list">
-              {beers.map(beer => (
-                <li
-                  className={`beer-list__item ${
-                    active && active.id === beer.id ? 'active' : ''
-                  }`}
-                  key={beer.id}
-                  onClick={() => this.onClickHandler(beer)}
-                >
-                  <BeerTeaser data={beer} />
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-        {active && (
-          <div>
-            <Beer data={active} />
-          </div>
-        )}
-      </main>
+      <div className="beer-search">
+        <Autosuggest
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          onSuggestionSelected={this.onSuggestionSelected.bind(this)}
+          suggestions={suggestions}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+          theme={theme}
+        />
+        <button
+          className="beer-search__button"
+          onClick={this.onSubmitHandler.bind(this)}
+          disabled={selected === null}
+        >
+          +
+        </button>
+      </div>
     );
   }
 }

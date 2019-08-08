@@ -9,7 +9,6 @@ body {
 
 .title {
   font-family: 'Arvo';
-  font-size: var(--font-size--large);
   font-weight: bold;
 }
 

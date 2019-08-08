@@ -1,33 +1,45 @@
-import firebaseConfig from '../firebaseConfig.json';
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
-
 export default class DataProvider {
-  private firebase = firebase.initializeApp(firebaseConfig);
-  private storage = firebase.firestore();
-  private data = this.storage.collection('beer');
+  private storage = window.localStorage;
   private APIEndpoint = 'https://api.punkapi.com/v2';
 
   // Get beers from collection.
-  public async getBeers() {
+  public getBeers(): any {
     try {
-      const beersReference = await this.data.get();
-      const beerIDs: number[] = [];
-      beersReference.forEach(beerRef => {
-        const beerId = beerRef.data().api_id;
-        beerIDs.push(beerId);
+      const beers = this.storage.getItem('beers') || '[]';
+      return JSON.parse(beers);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public addBeer(beer: any) {
+    try {
+      const beers = this.getBeers();
+      const exists = beers.find((item: any, i: number) => {
+        if (item.id === beer.id) {
+          return true;
+        } else {
+          return false;
+        }
       });
-      const result = await this.fetchBeers(beerIDs.join('|'));
-      return result;
+
+      if (!exists) {
+        beers.push(beer);
+        this.storage.setItem('beers', JSON.stringify(beers));
+      }
     } catch (error) {
       throw error;
     }
   }
 
   // Get beers from public Database API
-  private async fetchBeers(ids: string) {
-    const beers = await fetch(`${this.APIEndpoint}/beers?ids=${ids}`);
-    const json = await beers.json();
-    return json;
+  public async searchBeers(query: string) {
+    try {
+      const beers = await fetch(`${this.APIEndpoint}/beers?beer_name=${query}`);
+      const json = await beers.json();
+      return json;
+    } catch (error) {
+      throw error;
+    }
   }
 }

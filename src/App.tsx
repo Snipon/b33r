@@ -2,8 +2,8 @@
 import React from 'react';
 
 // Components.
-import BeerSearch from './Components/BeerSearch';
+import BeerList from './Components/BeerList';
 
-const App = () => <BeerSearch />;
+const App = () => <BeerList />;
 
 export default App;

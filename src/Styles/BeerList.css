@@ -1,0 +1,11 @@
+.beer-list__item .title {
+  color: var(--color--shade)
+}
+
+.beer-list__item .byline {
+  color: var(--color--secondary)
+}
+
+.beer-list__item.active {
+  background: linear-gradient(to right, transparent, var(--color--highlight))
+}
